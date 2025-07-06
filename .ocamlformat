@@ -1,0 +1,8 @@
+profile=conventional
+wrap-comments=true
+wrap-fun-args=true
+type-decl-indent=2
+infix-precedence=indent
+cases-exp-indent=2
+break-separators=before
+break-infix-before-func=true

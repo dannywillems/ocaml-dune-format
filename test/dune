@@ -13,4 +13,6 @@
   res/library_sorting.input
   res/library_sorting.expected
   res/preprocess_pps_sorting.input
-  res/preprocess_pps_sorting.expected))
+  res/preprocess_pps_sorting.expected
+  res/libraries_sorting.input
+  res/libraries_sorting.expected))

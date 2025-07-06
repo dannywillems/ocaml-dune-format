@@ -1,20 +1,20 @@
 # dune-alphafmt
 
-An OCaml library and CLI tool that extends `dune fmt` functionality by
-alphabetically sorting fields within `library` definitions in `.dune` files.
+An OCaml library and CLI tool that alphabetically sorts top-level forms and
+specific field contents in `.dune` files for consistent, deterministic formatting.
 
-This tool helps maintain clean and deterministic dune files by ensuring library
-fields are consistently ordered, making diffs more readable and reducing merge
+This tool helps maintain clean and readable dune files by ensuring consistent
+ordering of forms and dependencies, making diffs more readable and reducing merge
 conflicts.
 
 ---
 
 ## Features
 
-- **Library field sorting**: Alphabetically sorts fields within `(library ...)`
-  definitions
-- **Preserves structure**: Maintains the original order of top-level forms
-  (rules, executables, etc.)
+- **Top-level form sorting**: Alphabetically sorts dune forms (`executable`, `library`, `rule`, `test`, `tests`)
+- **Content sorting**: Sorts values within `libraries` and `preprocess` fields
+- **Field preservation**: Maintains original field order within each form
+- **Multiple form support**: Handles `library`, `executable`, `test`, and `tests` forms
 - **Clean formatting**: Outputs properly formatted S-expressions
 - **CLI tool**: Can be used standalone or integrated into build workflows
 
@@ -41,37 +41,72 @@ dune-alphafmt path/to/dune-file
 ```ocaml
 open Dune_alphafmt
 
-let formatted = Alphafmt.format_dune "(library (name mylib) (libraries base))"
-(* Result: "(library (libraries base) (name mylib))" *)
+let formatted = Alphafmt.format_dune "(library (name mylib) (libraries stdio base))"
+(* Result: "(library (name mylib) (libraries base stdio))" *)
 ```
 
 ## Example
 
 **Before:**
 ```lisp
+(rule
+ (target foo.txt)
+ (deps bar.txt))
+
 (library
  (synopsis "My awesome library")
  (public_name mylib)
  (name mylib)
- (libraries base stdio lwt)
+ (libraries stdio lwt base)
  (modules mylib utils helper)
- (preprocess (pps ppx_deriving.show)))
+ (preprocess (pps ppx_jane ppx_base)))
+
+(executable
+ (name main)
+ (libraries yojson base stdio)
+ (modules main))
 ```
 
 **After:**
 ```lisp
+(executable
+ (name main)
+ (libraries base stdio yojson)
+ (modules main))
+
 (library
- (libraries base stdio lwt)
- (modules mylib utils helper)
- (name mylib)
- (preprocess (pps ppx_deriving.show))
+ (synopsis "My awesome library")
  (public_name mylib)
- (synopsis "My awesome library"))
+ (name mylib)
+ (libraries base lwt stdio)
+ (modules mylib utils helper)
+ (preprocess (pps ppx_base ppx_jane)))
+
+(rule
+ (target foo.txt)
+ (deps bar.txt))
 ```
+
+### What Changed
+
+1. **Top-level forms sorted**: `executable` → `library` → `rule` (alphabetical)
+2. **Library dependencies sorted**: `stdio lwt base` → `base lwt stdio`
+3. **Preprocessor dependencies sorted**: `ppx_jane ppx_base` → `ppx_base ppx_jane`
+4. **Field order preserved**: Fields within each form stay in original order
 
 ## Integration with dune fmt
 
 This tool is designed to complement `dune fmt --auto-promote` by providing
-additional formatting capabilities specifically for library definitions. You can
+additional formatting capabilities for dune forms and dependency ordering. You can
 use both tools together in your build pipeline for comprehensive dune file
 formatting.
+
+## Supported Forms
+
+The tool processes the following dune forms:
+- `(library ...)` - OCaml libraries
+- `(executable ...)` - Standalone executables
+- `(test ...)` - Test executables
+- `(tests ...)` - Multiple test executables
+
+Other forms (like `(rule ...)`) are sorted at the top level but their contents remain unchanged.

@@ -1,0 +1,14 @@
+(executable
+ (name main)
+ (libraries base stdio yojson)
+ (modules main))
+
+(library
+ (name mylib)
+ (libraries base lwt stdio unix)
+ (modules mylib))
+
+(test
+ (name test_runner)
+ (libraries base mylib ounit2)
+ (modules test_runner))

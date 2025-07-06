@@ -1,8 +1,8 @@
 (library
- (libraries base stdio lwt)
- (modules mylib utils helper)
- (name mylib)
- (preprocess
-  (pps ppx_deriving.show))
+ (synopsis "My awesome library")
  (public_name mylib)
- (synopsis "My awesome library"))
+ (name mylib)
+ (libraries base lwt stdio)
+ (modules mylib utils helper)
+ (preprocess
+  (pps ppx_deriving.show)))

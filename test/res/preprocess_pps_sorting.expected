@@ -1,6 +1,6 @@
 (library
- (libraries base stdio)
  (name test)
  (preprocess
   (pps ppx_base ppx_deriving.show ppx_jane))
- (public_name test))
+ (public_name test)
+ (libraries base stdio))
