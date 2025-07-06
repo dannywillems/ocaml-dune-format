@@ -16,10 +16,10 @@ let sort_libraries_deps = function
   | other -> other
 
 let sort_dune_fields sexp =
+  let form_to_reformat = [ "executable"; "library"; "test"; "tests" ] in
   match sexp with
   | List (Atom form_name :: fields)
-    when form_name = "library" || form_name = "executable" || form_name = "test"
-         || form_name = "tests" ->
+    when List.exists (String.equal form_name) form_to_reformat ->
     let processed_fields =
       List.map
         (fun field -> field |> sort_preprocess_pps |> sort_libraries_deps)
