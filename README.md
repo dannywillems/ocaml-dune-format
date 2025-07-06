@@ -1,6 +1,6 @@
 # dune-alphafmt
 
-An OCaml library and CLI tool that sorts specific field contents in `.dune` files 
+An OCaml library and CLI tool that sorts specific field contents in `.dune` files
 for consistent, deterministic formatting.
 
 This tool helps maintain clean and readable dune files by ensuring consistent
