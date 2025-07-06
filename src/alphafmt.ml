@@ -1,6 +1,5 @@
 open Sexplib.Sexp
 
-
 let sort_preprocess_pps = function
   | List (Atom "preprocess" :: [ List (Atom "pps" :: deps) ]) ->
     let string_of_sexp = function
