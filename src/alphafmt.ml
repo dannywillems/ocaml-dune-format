@@ -1,27 +1,16 @@
 open Sexplib.Sexp
 
+let string_of_sexp = function Atom s -> s | _ -> ""
+let compare_deps a b = String.compare (string_of_sexp a) (string_of_sexp b)
+
 let sort_preprocess_pps = function
   | List (Atom "preprocess" :: [ List (Atom "pps" :: deps) ]) ->
-    let string_of_sexp = function
-      | Atom s -> s
-      | _ -> "" (* should not happen for pps dependencies *)
-    in
-    let compare_deps a b =
-      String.compare (string_of_sexp a) (string_of_sexp b)
-    in
     let sorted_deps = List.sort compare_deps deps in
     List [ Atom "preprocess"; List (Atom "pps" :: sorted_deps) ]
   | other -> other
 
 let sort_libraries_deps = function
   | List (Atom "libraries" :: deps) ->
-    let string_of_sexp = function
-      | Atom s -> s
-      | _ -> "" (* should not happen for library dependencies *)
-    in
-    let compare_deps a b =
-      String.compare (string_of_sexp a) (string_of_sexp b)
-    in
     let sorted_deps = List.sort compare_deps deps in
     List (Atom "libraries" :: sorted_deps)
   | other -> other
