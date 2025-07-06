@@ -1,0 +1,47 @@
+# Dune build directory
+_build/
+
+# OCaml compiled files
+*.cmi
+*.cmo
+*.cmx
+*.cma
+*.cmxa
+*.a
+*.o
+*.so
+*.exe
+
+# OCaml toplevel and debugger
+*.annot
+*.cmt
+*.cmti
+*.spot
+*.spit
+
+# Opam local switch
+_opam/
+
+# Merlin configuration
+.merlin
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+
+# Coverage files
+bisect*.coverage
+
+# Install artifacts
+*.install
