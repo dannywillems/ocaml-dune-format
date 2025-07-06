@@ -1,0 +1,16 @@
+(test
+ (name test_alphafmt)
+ (libraries alphafmt)
+ (deps
+  res/basic_sorting.input
+  res/basic_sorting.expected
+  res/single_form.input
+  res/single_form.expected
+  res/empty_input.input
+  res/empty_input.expected
+  res/already_sorted.input
+  res/already_sorted.expected
+  res/library_sorting.input
+  res/library_sorting.expected
+  res/preprocess_pps_sorting.input
+  res/preprocess_pps_sorting.expected))

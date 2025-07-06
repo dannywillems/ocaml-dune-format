@@ -1,0 +1,13 @@
+(rule
+ (target foo.txt)
+ (deps bar.txt))
+
+(library
+ (public_name mylib)
+ (name mylib)
+ (libraries base stdio)
+ (modules mylib utils))
+
+(executable
+ (name main)
+ (modules main))

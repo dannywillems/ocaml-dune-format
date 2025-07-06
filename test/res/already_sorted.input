@@ -1,0 +1,10 @@
+(executable
+ (name main))
+
+(library
+ (libraries base)
+ (modules mylib)
+ (name mylib))
+
+(rule
+ (target foo.txt))

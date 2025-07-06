@@ -1,0 +1,4 @@
+(library
+ (name alphafmt)
+ (public_name dune-alphafmt)
+ (libraries sexplib))

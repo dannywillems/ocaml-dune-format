@@ -1,0 +1,8 @@
+(library
+ (libraries base stdio lwt)
+ (modules mylib utils helper)
+ (name mylib)
+ (preprocess
+  (pps ppx_deriving.show))
+ (public_name mylib)
+ (synopsis "My awesome library"))
