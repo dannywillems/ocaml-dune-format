@@ -1,13 +1,5 @@
 open Sexplib.Sexp
 
-let compare_by_first_atom a b =
-  let atom_of = function
-    | List (Atom hd :: _) -> hd
-    | Atom a -> a
-    | List [] -> "" (* empty list, rare in dune files *)
-    | List (List _ :: _) -> "" (* nested lists start with list, not atom *)
-  in
-  String.compare (atom_of a) (atom_of b)
 
 let sort_preprocess_pps = function
   | List (Atom "preprocess" :: [ List (Atom "pps" :: deps) ]) ->
@@ -50,7 +42,6 @@ let sort_dune_fields sexp =
 
 let format_dune input =
   let sexps = Sexplib.Sexp.scan_sexps (Lexing.from_string input) in
-  let sorted_top_level = List.sort compare_by_first_atom sexps in
-  let processed = List.map sort_dune_fields sorted_top_level in
+  let processed = List.map sort_dune_fields sexps in
   String.concat "\n\n"
     (List.map (Sexplib.Sexp.to_string_hum ~indent:1) processed)

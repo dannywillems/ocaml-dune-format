@@ -1,12 +1,12 @@
-(executable
- (name main)
- (libraries base stdio yojson)
- (modules main))
-
 (library
  (name mylib)
  (libraries base lwt stdio unix)
  (modules mylib))
+
+(executable
+ (name main)
+ (libraries base stdio yojson)
+ (modules main))
 
 (test
  (name test_runner)

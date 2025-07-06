@@ -1,6 +1,6 @@
-(executable
- (name main)
- (modules main))
+(rule
+ (target foo.txt)
+ (deps bar.txt))
 
 (library
  (public_name mylib)
@@ -8,6 +8,6 @@
  (libraries base stdio)
  (modules mylib utils))
 
-(rule
- (target foo.txt)
- (deps bar.txt))
+(executable
+ (name main)
+ (modules main))

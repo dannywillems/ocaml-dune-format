@@ -1,18 +1,17 @@
 # dune-alphafmt
 
-An OCaml library and CLI tool that alphabetically sorts top-level forms and
-specific field contents in `.dune` files for consistent, deterministic formatting.
+An OCaml library and CLI tool that sorts specific field contents in `.dune` files 
+for consistent, deterministic formatting.
 
 This tool helps maintain clean and readable dune files by ensuring consistent
-ordering of forms and dependencies, making diffs more readable and reducing merge
-conflicts.
+ordering of dependencies, making diffs more readable and reducing merge conflicts.
 
 ---
 
 ## Features
 
-- **Top-level form sorting**: Alphabetically sorts dune forms (`executable`, `library`, `rule`, `test`, `tests`)
 - **Content sorting**: Sorts values within `libraries` and `preprocess` fields
+- **Form preservation**: Maintains original order of top-level forms
 - **Field preservation**: Maintains original field order within each form
 - **Multiple form support**: Handles `library`, `executable`, `test`, and `tests` forms
 - **Clean formatting**: Outputs properly formatted S-expressions
@@ -69,10 +68,9 @@ let formatted = Alphafmt.format_dune "(library (name mylib) (libraries stdio bas
 
 **After:**
 ```lisp
-(executable
- (name main)
- (libraries base stdio yojson)
- (modules main))
+(rule
+ (target foo.txt)
+ (deps bar.txt))
 
 (library
  (synopsis "My awesome library")
@@ -82,14 +80,15 @@ let formatted = Alphafmt.format_dune "(library (name mylib) (libraries stdio bas
  (modules mylib utils helper)
  (preprocess (pps ppx_base ppx_jane)))
 
-(rule
- (target foo.txt)
- (deps bar.txt))
+(executable
+ (name main)
+ (libraries base stdio yojson)
+ (modules main))
 ```
 
 ### What Changed
 
-1. **Top-level forms sorted**: `executable` → `library` → `rule` (alphabetical)
+1. **Form order preserved**: Top-level forms stay in original order
 2. **Library dependencies sorted**: `stdio lwt base` → `base lwt stdio`
 3. **Preprocessor dependencies sorted**: `ppx_jane ppx_base` → `ppx_base ppx_jane`
 4. **Field order preserved**: Fields within each form stay in original order
@@ -109,4 +108,4 @@ The tool processes the following dune forms:
 - `(test ...)` - Test executables
 - `(tests ...)` - Multiple test executables
 
-Other forms (like `(rule ...)`) are sorted at the top level but their contents remain unchanged.
+Other forms (like `(rule ...)`) are left completely unchanged.
